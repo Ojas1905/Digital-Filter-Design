@@ -1,0 +1,366 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[hidelinks]{hyperref}
+\usepackage[a4paper]{geometry}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+
+\titleformat*{\section}{\LARGE\bfseries}
+\titleformat*{\subsection}{\Large\bfseries}
+
+\pagestyle{fancy}
+
+\lhead{\leftmark}
+\rhead{Page \thepage}
+\cfoot{Butterworth Bandstop Filter}
+\renewcommand{\footrulewidth}{1pt}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+    \vspace*{\fill}
+\includegraphics[scale=0.4]{iitb.png}\\
+[4 cm]
+    \rule{12.5cm}{0.75mm}\\
+    \huge{\bfseries Filter Design Assignment-I}
+    \rule{12.5cm}{0.75mm}\\
+    [0.5cm]
+   {\textbf {EE338 - 2023 \\
+    Filter Review Report}}\\
+    [2.5cm]
+\end{center}
+\begin{flushleft}
+   {\huge
+    Ojas Karanjkar \\
+    210070040 \\
+     \\}
+    \end{flushleft}
+\end{titlepage}
+\tableofcontents
+\thispagestyle{empty}
+\clearpage
+\pagenumbering{arabic}
+
+\newpage
+
+\section{Student Details}
+\begin{itemize}
+    \item Name : Ojas Karanjkar
+    \item Roll No: 210070040
+    \item Filter number assigned: 103
+\end{itemize}
+
+\section{Butterworth Bandstop Filter Details}
+\subsection{Un-normailzed Discrete time specifications}
+
+\begin{itemize}
+    \item \begin{enumerate}
+                \item m = 23
+                \item q(m) = [2.3] = 2
+                \item r(m) = 23 - 10*2 = 3
+                \item BL(m) = 20 + 3*2 + 11*3 = 59
+                \item BH(m) = 59 + 40 = 99
+            \end{enumerate}
+
+    \item Stopband = $59$ kHz to $99$ kHz.
+    \item Transition Band Width = $5$ kHz.
+    \item Passband = $0$ to $54$ kHz and $104$ to $212.5$ kHz.
+    \item Tolerance = 0.15.
+    \item Nature of Passband and Stopband : Both monotonic.
+\end{itemize}
+
+
+\begin
+
+\subsection{Normailzed discrete filter specifications}
+Sampling frequency = $425 kHz$\\
+\begin{center}
+    $\omega = \frac{\Omega * 2\pi}{\Omega _{sampling}}$\\
+\end{center}
+
+\begin{itemize}
+    \item Stopband = $0.27\pi$ to $0.46\pi$ .
+    \item Transition Band Width = $0.0235\pi$ .
+    \item Passband = $0$ to $0.25$  and $0.48\pi$ to $\pi$ .
+    \item Tolerance = 0.15.
+    \item Nature of Passband and Stopband : Both monotonic.
+\end{itemize}
+
+
+\subsection{Converting to Analog Low-pass filter}
+We have the following transformation for converting into analog low-pass filter:\\
+\begin{center}
+    $\Omega = tan(\frac{\omega}{2})$\\
+\end{center}
+
+Using the above Bilinear Transformation, the passband and stopband specifications are updated as follows:\\
+
+\begin{itemize}
+    \item Stopband = $0.451$ to $0.88$ .
+    \item Transition Band = $0.414$ to $0.4509$ and $0.88$ to $0.939$ .
+    \item Passband = $0$ to $0.414$  and $0.939$ to $\infty$ .
+    \item Tolerance = 0.15.
+    \item Nature of Passband and Stopband : Both monotonic.
+\end{itemize}
+
+\subsection{Frequency Transformation for Band-Stop Filter}
+The frequency transformation for converting a bandstop filter to low pass filter are as follows:\\
+
+\begin{center}
+    $\Omega _{L} = \frac{B\Omega}{\Omega _{0}^{2} - \Omega^{2}}$\\
+    B = $\Omega _{p2} - \Omega _{p1}$\\
+    $\Omega _{0} = \sqrt{\Omega _{p1}\Omega _{p2}}$ \\
+\end{center}
+
+According to the above transformation, we can tabulate the updated value of stopband and passband edges:\\
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+       $\Omega$ & $\Omega _{L}$\\
+       \hline
+       $0^+$  & $0^+$   \\
+       \hline
+       $0.414 (\Omega_{p1})$  & $1.00$   \\
+       \hline
+        $0.451 (\Omega_{s1})$  & $1.28$   \\
+       \hline
+       $0.623^- (\Omega_{0})$  & $-\infty$   \\
+       \hline
+       $0.623^+ (\Omega_{0})$  & $+\infty$   \\
+       \hline
+       $0.88 (\Omega_{s2})$  & $-1.19$   \\
+       \hline
+       $0.939 (\Omega_{p2})$  & $-0.99$   \\
+       \hline
+       $\infty$  & $0^-$   \\
+       \hline
+    \end{tabular}
+\end{table}
+
+\begin{itemize}
+    \item Passband edge = 1 ($\Omega_{lp}$)
+    \item Stopband edge = 1.19 ($\Omega_{ls}$)
+    \item Tolerance = 0.15.
+    \item Nature of Passband and Stopband : Both monotonic.
+\end{itemize}
+
+\subsection{Analog Lowpass Transfer Function}
+ Tolerance = 0.15\\
+
+ \begin{center}
+     $D_{1} = \frac{1}{(1-\delta)^2} - 1 = 0.3844$\\
+     $D_{2} = \frac{1}{\delta^2} - 1 = 43.44$  \\
+     $N \geq \lceil \frac{log(\frac{D_2}{D_1})}{2log(\frac{\Omega_s}{\Omega_p})} \rceil$\\
+     $N = 14$\\
+     $\frac{\Omega_p}{D_{1}^\frac{1}{2N}} \leq \Omega_c \leq \frac{\Omega_s}{D_{2}^\frac{1}{2N}} $\\
+     $1.03467 \leq \Omega_c \leq 1.040042$\\
+     $\Omega_c = 1.037$\\
+ \end{center}
+
+ \subsubsection{Finding Poles of the transfer function}
+
+ Poles can be found using the following expression:\\
+
+ \begin{center}
+     $1 + (\frac{s}{j\Omega_c})^{2N} = 0$\\
+ \end{center}
+
+ Upon solving the above equation we get the following value of poles in open left half complex plane:\\
+
+\begin{center}
+ p1 = -0.1161 - 1.0305i\\
+ p2 = -0.3425 - 0.9788i\\
+ p3 = -0.5517 - 0.8781i \\
+ p4 = -0.7333 - 0.7333i \\
+ p5 = -0.8781 - 0.5517i\\
+ p6 = -0.9788 - 0.3425i\\
+ p7 = -1.0305 - 0.1161i\\
+ p8 = -1.0305 + 0.1161i\\
+ p9 = -0.9788 + 0.3425i\\
+ p10 = -0.8781 + 0.5517i\\
+ p11 = -0.7333 + 0.7333i\\
+ p12 = -0.5517 + 0.8781i \\
+ p13 = -0.3425 + 0.9788i \\
+ p14 = -0.1161 + 1.0305i\\
+
+\end{center}
+The plot of the poles of the magnitude response of the Analog Lowpass filter plotted in python is as follows:-
+
+\newpage
+\begin{center}
+     \includegraphics[scale = 0.5]{Figure_1.png}\\
+    \caption{Poles of Magnitude response}\\
+\end{center}
+   
+The Transfer Function of the Analog Lowpass Filter:\\
+
+\[H_{analog,LPF}(s_{L}) = \]
+
+\[\scalebox{1.2}{$\frac{\Omega_{c}^N}{(s_{L}-p_{1})(s_{L}-p_{2})(s_{L}-p_{3})(s_{L}-p_{4})(s_{L}-p_{5})(s_{L}-p_{6})(s_{L}-p_{7})(s_{L}-p_{8})(s_{L}-p_{9})(s_{L}-p_{10})(s_{L}-p_{11})(s_{L}-p_{12})(s_{L}-p_{13})(s_{L}-p_{14})}$}\]
+
+ \subsection{Analog Bandstop Transfer Function}
+
+Now we need to transform the Analog Lowpass filter back to Analog Bandstop filter using the same transformation we used earlier.
+\[s_{L} = \frac{Bs}{\Omega_{0}^2 + s^2}\]
+Thus
+\[s_{L} = \frac{0.525s}{0.6234 + s^2}\]
+
+Substituting this value of $s_{L}$ into the above Analog Lowpass Filter Tranfer Function to get the Analog Bandstop Filter Tranfer function i.e \textbf{$H_{analog,BSF}(s)$}. Numerator and Denominator coefficients are as follows:
+
+
+
+\begin{table}[H]
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \begin{tabular}{ |c|c| }
+      \toprule
+      \makecell{Powers of s \\ in Denominator} & \makecell{Coefficients} \\
+      \midrule
+      $s^{28}$ & 1 \\
+      $s^{27}$ & 4.5216 \\
+      $s^{26}$ & 15.6636 \\
+      $s^{25}$ & 38.1214 \\
+      $s^{24}$ & 78.2437 \\
+      $s^{23}$ & 133.00100 \\
+      $s^{22}$ & 198.57304\\
+      $s^{21}$ & 258.8133 \\
+      $s^{20}$ & 302.5689 \\
+      $s^{19}$ & 316.1823 \\
+      $s^{18}$ & 299.8353 \\
+      $s^{17}$ & 257.2226 \\
+      $s^{16}$ & 201.52 \\
+      $s^{15}$ & 143.6732 \\
+      $s^{14}$ & 93.8095 \\
+      $s^{13}$ & 55.8353 \\
+      $s^{12}$ & 30.4367 \\
+      $s^{11}$ & 15.09 \\
+      $s^{10}$ & 6.8393 \\
+      $s^{9}$ & 2.8028 \\
+      $s^{8}$ & 1.0423\\
+      $s^{7}$ & 0.3465 \\
+      $s^{6}$ & 0.1033 \\
+      $s^{5}$ & 0.0268 \\
+      $s^{4}$ & 0.00614 \\
+      $s^{3}$ & 0.001164 \\
+      $s^{2}$ & 0.0001859 \\
+      $s^{1}$ & 2.08e-05\\
+      $s^{0}$ & 1.79e-05 \\
+      \bottomrule
+    \end{tabular}
+  \end{minipage}%
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \begin{tabular}{ |c|c| }
+      \toprule
+      \makecell{Powers of s \\ in Numerator} & \makecell{Coefficients} \\
+      \midrule
+      $s^{28}$ & 1 \\
+      $s^{26}$ & 5.44 \\
+      $s^{24}$ & 13.7438 \\
+      $s^{22}$ & 21.3649 \\
+      $s^{20}$ & 22.8332 \\
+      $s^{18}$ & 17.7472\\
+      $s^{16}$ & 10.34 \\
+      $s^{14}$ & 4.5949 \\
+      $s^{12}$ & 1.5625 \\
+      $s^{10}$ & 0.404 \\
+      $s^{8}$ & 0.07866 \\
+      $s^{6}$ & 0.01111657 \\
+      $s^{4}$ & 0.00108005\\
+      $s^{2}$ & 6.45e-05 \\
+      $s^{0}$ & 1.79e-06 \\
+      \bottomrule
+    \end{tabular}
+  \end{minipage}
+\end{table}
+
+ 
+\begin{table}[H]
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \begin{tabular}{ |c|c| }
+      \toprule
+      \makecell{Powers of s \\ in Denominator} & \makecell{Coefficients} \\
+      \midrule
+      $z^{-28}$ & 1 \\
+      $z^{-27}$ & 9.57 \\
+      $z^{-26}$ & 50.54\\
+      $z^{-25}$ & 187.8297 \\
+      $z^{-24}$ & 544.4017 \\
+      $z^{-23}$ & 1297.2673\\
+      $z^{-22}$ & 2625.6999 \\
+      $z^{-21}$ & 4611.614\\
+      $z^{-20}$ & 7134.3600 \\
+      $z^{-19}$ & 9826.3641\\
+      $z^{-18}$ & 12143.8409 \\
+      $z^{-17}$ &  13542.3158 \\
+      $z^{-16}$ & 13681.73244 \\
+      $z^{-15}$ & 12555.8230 \\
+      $z^{-14}$ & 10482.1612 \\
+      $z^{-13}$ & 7964.1211 \\
+      $z^{-12}$ & 5503.5802 \\
+      $z^{-11}$ & 3453.45056 \\
+      $z^{-10}$ & 1962.1101 \\
+      $z^{-9}$ & 1004.2234 \\
+      $z^{-8}$ & 461.69327 \\
+      $z^{-7}$ & 188.60517 \\
+      $z^{-6}$ & 67.7939 \\
+      $z^{-5}$ & 21.1230 \\
+      $z^{-4}$ & 5.58500 \\
+      $z^{-3}$ & 1.12327 \\
+      $z^{-2}$ & 0.20558\\
+      $z^{-1}$ & 0.0245 \\
+      $z^{0}$ & 000163\\
+      \bottomrule
+    \end{tabular}
+  \end{minipage}%
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \begin{tabular}{ |c|c| }
+      \toprule
+      \makecell{Powers of s \\ in Numerator} & \makecell{Coefficients} \\
+      \midrule
+      $z^{-28}$ & 1\\
+      $z^{-27}$ & 12.32 \\
+      $z^{-26}$ & 84.5647\\
+      $z^{-25}$ & 408.8093 \\
+      $z^{-24}$ & 1539.5987 \\
+      $z^{-23}$ & 4755.4093\\
+      $z^{-22}$ & 12439.4012 \\
+      $z^{-21}$ & 28134.1051\\
+      $z^{-20}$ & 55891.89107 \\
+      $z^{-19}$ & 98477.3500\\
+      $z^{-18}$ & 155140.5032 \\
+      $z^{-17}$ &  219772.7785 \\
+      $z^{-16}$ & 28109.5449 \\
+      $z^{-15}$ & 325473.9455 \\
+      $z^{-14}$ & 281090.54498 \\
+      $z^{-13}$ & 219772.7785 \\
+      $z^{-12}$ & 155140.5032 \\
+      $z^{-11}$ & 98477.35009 \\
+      $z^{-10}$ & 155140.5032 \\
+      $z^{-9}$ & 219772.778\\
+      $z^{-8}$ & 281090.54498 \\
+      $z^{-7}$ & 325473.9455 \\
+      $z^{-6}$ & 12439.40124 \\
+      $z^{-5}$ & 4755.4093 \\
+      $z^{-4}$ & 1539.5987 \\
+      $z^{-3}$ & 408.8093 \\
+      $z^{-2}$ & 84.5647\\
+      $z^{-1}$ & 12.32868 \\
+      $z^{0}$ & 1.0000887\\
+      \bottomrule
+    \end{tabular}
+  \end{minipage}
+\end{table}
+
+\subsection{Peer Review}
+I have reviewed the assignment of Kushal Gajbe, Roll No. 210070048. His phase response is too smooth to be that of real life filter. Also it does not match (atleast the nature of his phase response) of the assignment which was given as reference. Magnitude response is fine. There seems to be calculation error in order and passband/stopband edges.
+
+
+\end{document}
